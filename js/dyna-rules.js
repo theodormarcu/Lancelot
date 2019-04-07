@@ -1,7 +1,7 @@
 /*******************************************************************************
 
-    uBlock Origin - a browser extension to block requests.
-    Copyright (C) 2014-present Raymond Hill
+    Lancelot - A child-friendly tracker and ad blocker built on top of uBlock Origin.
+    Copyright (C) 2019-present Theodor Marcu. Thanks to Raymond Hill and the uBlock contributors for their work.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

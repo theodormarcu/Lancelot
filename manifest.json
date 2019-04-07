@@ -28,7 +28,8 @@
       "js": [
         "/js/vapi.js",
         "/js/vapi-client.js",
-        "/js/contentscript.js"
+        "/js/contentscript.js",
+        "/js/banner.js"
       ],
       "matches": [
         "http://*/*",

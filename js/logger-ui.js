@@ -1,6 +1,6 @@
 /*******************************************************************************
 
-    uBlock Origin - a browser extension to block requests.
+    Lancelot - A child-friendly tracker and ad blocker built on top of uBlock Origin.
     Copyright (C) 2015-present Raymond Hill
 
     This program is free software: you can redistribute it and/or modify
