@@ -26,18 +26,13 @@
 
 var DEBUG_FLAG = true;
 //text constants
-var BANNER_NORMAL = "This video contains affiliate links. If you click on highlighted links, the creator receives a commission";
-var BANNER_COUPON = "This video may contain affiliate marketing content. The creator may make a commission off of clicks to the highlighted portions of the description";
+var BANNER_NORMAL = "Lancelot dummy text.";
 var BUTTON_NORMAL = "Exit";
 var BANNER_OPTIONS = {
 	"normal": {
 		"text": BANNER_NORMAL,
 		"button": BUTTON_NORMAL,
-	},
-	"coupon": {
-		"text": BANNER_COUPON,
-		"button": BUTTON_NORMAL,
-	},
+	}
 }
 
 
@@ -53,8 +48,6 @@ run();
 function run() {
     debug_log("run() Called.");
     if (!document.getElementById("lancelot-banner")) {
-        // Add observer
-        // addObserver();
         insertBanner();
     }
 }
@@ -63,12 +56,14 @@ function run() {
 function insertBanner() {
     debug_log("insertBanner() called.");
     if (document.body !== null && !document.getElementById("lancelot-banner")) {
+        // Create Banner
         var bannerConstants = BANNER_OPTIONS['normal'];
         var banner = document.createElement("div");
-        banner.innerHTML = "<div id='AdIntuition' style='background-color: red; padding-left:5px; padding-right:10px; padding-bottom:5px; padding-top:1px;'><span style='display:inline-block;'>" + bannerConstants.text + "&nbsp&nbsp</span></div>";
+        banner.innerHTML = "<div style=''><span style='display:inline-block;'>" + bannerConstants.text + "&nbsp&nbsp</span></div>";
         banner.id = "lancelot-banner";
-        debug_log(document.body.firstChild);
-        document.body.insertBefore(banner, document.body.firstChild);
+        var firstChild = document.body.firstChild;
+        // Add Banner to Page
+        document.body.insertBefore(banner, firstChild);
         debug_log("insertBanner() finished running.");
     }
 }

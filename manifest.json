@@ -52,6 +52,9 @@
             "js": [
                 "/js/banner.js"
             ],
+            "css": [
+                "css/banner.css"
+            ],
             "matches": [
                 "http://*/*",
                 "https://*/*"
