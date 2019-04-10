@@ -49,6 +49,9 @@ function run() {
     debug_log("run() Called.");
     if (!document.getElementById("lancelot-banner")) {
         insertBanner();
+    } else {
+        removeBanner();
+        insertBanner();
     }
 }
 
@@ -59,11 +62,25 @@ function insertBanner() {
         // Create Banner
         var bannerConstants = BANNER_OPTIONS['normal'];
         var banner = document.createElement("div");
-        banner.innerHTML = "<div style=''><span style='display:inline-block;'>" + bannerConstants.text + "&nbsp&nbsp</span></div>";
+        banner.innerHTML = "<span style='display:inline-block;'>" + bannerConstants.text + "&nbsp&nbsp</span>";
         banner.id = "lancelot-banner";
         var firstChild = document.body.firstChild;
         // Add Banner to Page
         document.body.insertBefore(banner, firstChild);
+        // Add Exit Button
+        var exitButton = document.createElement("a");
+		exitButton.classList.add("exitButton");
+		exitButton.innerHTML = bannerConstants.button;
+		exitButton.onclick = (function() {removeBanner();})
+        document.getElementById("lancelot-banner").appendChild(exitButton);
         debug_log("insertBanner() finished running.");
+    }
+}
+
+// Remove Banner
+function removeBanner() {
+	var element = document.getElementById("lancelot-banner");
+	if (element) {
+    	element.parentNode.removeChild(element);
     }
 }
