@@ -51,6 +51,8 @@
             "js": [
                 "/js/vapi.js",
                 "/js/vapi-client.js",
+                "/js/vapi-common.js",
+                "/js/udom.js",
                 "/js/banner.js"
             ],
             "css": [

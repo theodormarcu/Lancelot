@@ -528,6 +528,12 @@
                 response = lastModified !== request.contentLastModified;
                 break;
 
+            case 'hasBannerContentChanged':
+                pageStore = µb.pageStoreFromTabId(request.tabId);
+                var lastModified = pageStore ? pageStore.contentLastModified : 0;
+                response = lastModified !== request.contentLastModified;
+                break;
+
             case 'revertFirewallRules':
                 µb.sessionFirewall.copyRules(
                     µb.permanentFirewall,

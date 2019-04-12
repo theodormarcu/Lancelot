@@ -144,7 +144,7 @@ const getBannerData = function(tabId) {
         // renderOnce();
         renderBanner();
         renderBannerLazy(); // low priority rendering
-        hashFromPopupData(true);
+        // hashFromBannerData(true);
         pollForContentChange();
     };
     messaging.send(
@@ -277,7 +277,7 @@ const renderBannerPrivacyExposure = function() {
 
 const renderBannerLazy = function() {
     messaging.send(
-        'bannerPanel',
+        'banner',
         { what: 'getBannerLazyData', tabId: bannerData.tabId }
     );
 };
@@ -299,6 +299,96 @@ const onBannerMessage = function(data) {
 };
 
 messaging.addChannelListener('banner', onBannerMessage);
+
+/******************************************************************************/
+
+
+const hashFromBannerData = function(reset) {
+    // It makes no sense to offer to refresh the behind-the-scene scope
+    if ( bannerData.pageHostname === 'behind-the-scene' ) {
+        uDom('body').toggleClass('dirty', false);
+        return;
+    }
+
+    const hasher = [];
+    const rules = bannerData.firewallRules;
+    for ( const key in rules ) {
+        const rule = rules[key];
+        if ( rule === null ) { continue; }
+        hasher.push(
+            rule.src + ' ' +
+            rule.des + ' ' +
+            rule.type + ' ' +
+            rule.action
+        );
+    }
+    hasher.sort();
+    hasher.push(uDom('body').hasClass('off'));
+    hasher.push(uDom.nodeFromId('no-large-media').classList.contains('on'));
+    hasher.push(uDom.nodeFromId('no-cosmetic-filtering').classList.contains('on'));
+    hasher.push(uDom.nodeFromId('no-remote-fonts').classList.contains('on'));
+    hasher.push(uDom.nodeFromId('no-scripting').classList.contains('on'));
+
+    const hash = hasher.join('');
+    if ( reset ) {
+        cachedBannerHash = hash;
+    }
+    uDom('body').toggleClass('dirty', hash !== cachedBannerHash);
+};
+
+
+/******************************************************************************/
+
+// Poll for changes.
+//
+// I couldn't find a better way to be notified of changes which can affect
+// popup content, as the messaging API doesn't support firing events accurately
+// from the main extension process to a specific auxiliary extension process:
+//
+// - broadcasting() is not an option given there could be a lot of tabs opened,
+//   and maybe even many frames within these tabs, i.e. unacceptable overhead
+//   regardless of whether the popup is opened or not.
+//
+// - Modifying the messaging API is not an option, as this would require
+//   revisiting all platform-specific code to support targeted broadcasting,
+//   which who knows could be not so trivial for some platforms.
+//
+// A well done polling is a better anyways IMO, I prefer that data is pulled
+// on demand rather than forcing the main process to assume a client may need
+// it and thus having to push it all the time unconditionally.
+
+const pollForContentChange = (function() {
+    let pollTimer;
+
+    const pollCallback = function() {
+        pollTimer = undefined;
+        messaging.send(
+            'banner',
+            {
+                what: 'hasBannerContentChanged',
+                tabId: bannerData.tabId,
+                contentLastModified: bannerData.contentLastModified
+            },
+            queryCallback
+        );
+    };
+
+    const queryCallback = function(response) {
+        if ( response ) {
+            getBannerData(bannerData.tabId);
+            return;
+        }
+        poll();
+    };
+
+    const poll = function() {
+        if ( pollTimer !== undefined ) { return; }
+        pollTimer = vAPI.setTimeout(pollCallback, 1500);
+    };
+
+    return poll;
+})();
+
 
 /******************************************************************************/
 
