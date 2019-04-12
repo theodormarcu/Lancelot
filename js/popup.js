@@ -1164,7 +1164,10 @@ const onHideTooltip = function() {
     if ( matches && matches.length === 2 ) {
         tabId = parseInt(matches[1], 10) || 0;
     }
+    console.log(tabId);
     getPopupData(tabId);
+    console.log("popupdata");
+    console.log(popupData);
 })();
 
 uDom('#switch').on('click', toggleNetFilteringSwitch);
