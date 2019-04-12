@@ -275,34 +275,30 @@ const renderBannerPrivacyExposure = function() {
 /******************************************************************************/
 
 
-// const renderBannerLazy = function() {
-//     messaging.send(
-//         'popupPanel',
-//         { what: 'getPopupLazyData', tabId: popupData.tabId }
-//     );
-// };
-//
-// const onPopupMessage = function(data) {
-//     if ( !data ) { return; }
-//     if ( data.tabId !== popupData.tabId ) { return; }
-//
-//     switch ( data.what ) {
-//     case 'domSurveyFinalReport':
-//         let count = data.affectedElementCount || '';
-//         uDom.nodeFromSelector('#no-cosmetic-filtering > span.fa-icon-badge')
-//             .textContent = typeof count === 'number'
-//                 ? Math.min(count, 99).toLocaleString()
-//                 : count;
-//         count = data.scriptCount || '';
-//         // uDom.nodeFromSelector('#no-scripting > span.fa-icon-badge')
-//         //     .textContent = typeof count === 'number'
-//         //         ? Math.min(count, 99).toLocaleString()
-//         //         : count;
-//         break;
-//     }
-// };
-//
-// messaging.addChannelListener('popup', onPopupMessage);
+const renderBannerLazy = function() {
+    messaging.send(
+        'bannerPanel',
+        { what: 'getBannerLazyData', tabId: bannerData.tabId }
+    );
+};
+
+const onBannerMessage = function(data) {
+    if ( !data ) { return; }
+    if ( data.tabId !== bannerData.tabId ) { return; }
+
+    switch ( data.what ) {
+    case 'domSurveyFinalReport':
+        let count = data.affectedElementCount || '';
+        uDom.nodeFromSelector('#no-cosmetic-filtering > span.fa-icon-badge')
+            .textContent = typeof count === 'number'
+                ? Math.min(count, 99).toLocaleString()
+                : count;
+        count = data.scriptCount || '';
+        break;
+    }
+};
+
+messaging.addChannelListener('banner', onBannerMessage);
 
 /******************************************************************************/
 
