@@ -49,6 +49,8 @@
         {
             "all_frames": true,
             "js": [
+                "/js/vapi.js",
+                "/js/vapi-client.js",
                 "/js/banner.js"
             ],
             "css": [

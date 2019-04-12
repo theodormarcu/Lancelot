@@ -21,7 +21,7 @@
 
 
 'use strict';
-
+(function() {
 /******************************************************************************/
 
 var DEBUG_FLAG = true;
@@ -37,11 +37,18 @@ var BANNER_OPTIONS = {
 
 var bannerData = {};
 var messaging = vAPI.messaging;
+const reIP = /^\d+(?:\.\d+){1,3}$/;
 var scopeToSrcHostnameMap = {
     '/': '*',
     '.': ''
 };
+let allDomains = {};
+let allDomainCount = 0;
+let allHostnameRows = [];
+let touchedDomainCount = 0;
 const hostnameToSortableTokenMap = new Map();
+
+var bannerFontSize;
 /******************************************************************************/
 // Print Only when DEBUG_FLAG is true
 function debug_log(text) {
@@ -49,6 +56,32 @@ function debug_log(text) {
         console.log(text);
     }
 }
+
+/******************************************************************************/
+
+const formatNumber = function(count) {
+    return typeof count === 'number' ? count.toLocaleString() : '';
+};
+
+/******************************************************************************/
+
+const rulekeyCompare = function(a, b) {
+    let ha = a.slice(2, a.indexOf(' ', 2));
+    if ( !reIP.test(ha) ) {
+        ha = hostnameToSortableTokenMap.get(ha) || ' ';
+    }
+    let hb = b.slice(2, b.indexOf(' ', 2));
+    if ( !reIP.test(hb) ) {
+        hb = hostnameToSortableTokenMap.get(hb) || ' ';
+    }
+    const ca = ha.charCodeAt(0);
+    const cb = hb.charCodeAt(0);
+    if ( ca !== cb ) {
+        return ca - cb;
+    }
+    return ha.localeCompare(hb);
+};
+
 /******************************************************************************/
 function run() {
     debug_log("run() Called.");
@@ -78,7 +111,7 @@ function insertBanner() {
         // Create Banner
         var bannervarants = BANNER_OPTIONS['normal'];
         var banner = document.createElement("div");
-        banner.innerHTML = "<span><p id='banner-text'></p><p id='page-blocked-banner'></p></span>";
+        banner.innerHTML = "<span><p id='banner-text'></p><p id='page-blocked-banner'></p><p id='bannerHitDomainCount'></p></span>";
         banner.id = "lancelot-banner";
         var firstChild = document.body.firstChild;
         // Add Banner to Page
@@ -108,7 +141,7 @@ const getBannerData = function(tabId) {
     const onDataReceived = function(response) {
         debug_log("Received!");
         cacheBannerData(response);
-        renderOnce();
+        // renderOnce();
         renderBanner();
         renderBannerLazy(); // low priority rendering
         hashFromPopupData(true);
@@ -159,24 +192,6 @@ const cacheBannerData = function(data) {
 };
 
 
-/******************************************************************************/
-
-// All rendering code which need to be executed only once.
-
-let renderOnce = function() {
-    renderOnce = function() {};
-
-    if (bannerData.fontSize !== bannerFontSize) {
-        bannerFontSize = bannerData.fontSize;
-        if (bannerFontSize !== 'unset') {
-            document.body.style.setProperty('font-size', bannerFontSize);
-            vAPI.localStorage.setItem('bannerFontSize', bannerFontSize);
-        } else {
-            document.body.style.removeProperty('font-size');
-            vAPI.localStorage.removeItem('bannerFontSize');
-        }
-    }
-};
 
 /******************************************************************************/
 
@@ -193,17 +208,17 @@ const renderBanner = function() {
     );
     if (bannerData.netFilteringSwitch === true) {
         // console.log("FILTERING IS ON");
-        uDom.nodeFromId('lancelot-banner').value = #2ecc71;
-        uDom.nodeFromId('banner-text').textContent = "Page Protection On";
+        document.getElementById('lancelot-banner').style.backgroundColor = "#2ecc71";
+        document.getElementById('banner-text').textContent = "Page Protection On";
 
     } else {
         // console.log("FILTERING IS OFF");
-        uDom.nodeFromId('lancelot-banner').src = "../img/icon_128-off.png";
-        uDom.nodeFromId('banner-text').textContent = "Page Protection Off";
+        document.getElementById('lancelot-banner').style.backgroundColor = "#e74c3c";
+        document.getElementById('banner-text').textContent = "Page Protection Off";
     }
 
-    let blocked = popupData.pageBlockedRequestCount,
-        total = popupData.pageAllowedRequestCount + blocked,
+    let blocked = bannerData.pageBlockedRequestCount,
+        total = bannerData.pageAllowedRequestCount + blocked,
         text;
     if (total === 0) {
         text = formatNumber(0);
@@ -211,63 +226,10 @@ const renderBanner = function() {
         text = formatNumber(blocked);
     }
 
-    uDom.nodeFromId('page-blocked-banner').textContent = text;
+    document.getElementById('page-blocked-banner').textContent = text;
 
     // This will collate all domains, touched or not
     renderBannerPrivacyExposure();
-
-    // Extra tools
-    updateHnSwitches();
-
-    // Report blocked popup count on badge
-    total = popupData.popupBlockedCount;
-    // uDom.nodeFromSelector('#no-popups > span.fa-icon-badge')
-    //     .textContent = total ? Math.min(total, 99).toLocaleString() : '';
-
-    // Report large media count on badge
-    total = popupData.largeMediaCount;
-    // uDom.nodeFromSelector('#no-large-media > span.fa-icon-badge')
-    //     .textContent = total ? Math.min(total, 99).toLocaleString() : '';
-
-    // Report remote font count on badge
-    total = popupData.remoteFontCount;
-    // uDom.nodeFromSelector('#no-remote-fonts > span.fa-icon-badge')
-    //     .textContent = total ? Math.min(total, 99).toLocaleString() : '';
-
-    // https://github.com/chrisaljoudi/uBlock/issues/470
-    // This must be done here, to be sure the popup is resized properly
-    const dfPaneVisible = popupData.dfEnabled;
-
-    // https://github.com/chrisaljoudi/uBlock/issues/1068
-    // Remember the last state of the firewall pane. This allows to
-    // configure the popup size early next time it is opened, which means a
-    // less glitchy popup at open time.
-    if (dfPaneVisible !== dfPaneVisibleStored) {
-        dfPaneVisibleStored = dfPaneVisible;
-        vAPI.localStorage.setItem('popupFirewallPane', dfPaneVisibleStored);
-    }
-
-    uDom.nodeFromId('panes').classList.toggle(
-        'dfEnabled',
-        dfPaneVisible === true
-    );
-
-    elem = uDom.nodeFromId('firewallContainer');
-    elem.classList.toggle(
-        'minimized',
-        popupData.firewallPaneMinimized === true
-    );
-    elem.classList.toggle(
-        'colorBlind',
-        popupData.colorBlindFriendly === true
-    );
-
-    // Build dynamic filtering pane only if in use
-    if (dfPaneVisible) {
-        buildAllFirewallRows();
-    }
-
-    renderTooltips();
 };
 
 /******************************************************************************/
@@ -304,14 +266,46 @@ const renderBannerPrivacyExposure = function() {
     }
 
     if (allDomainCount === 0) {
-        uDom.nodeFromId('bannerHitDomainCount').textContent = "100%";
+        document.getElementById('bannerHitDomainCount').textContent = "100%";
     } else {
-        uDom.nodeFromId('bannerHitDomainCount').textContent = formatNumber(Math.floor(100 - ((touchedDomainCount) * 100 / allDomainCount))) + "%";
+        document.getElementById('bannerHitDomainCount').textContent = formatNumber(Math.floor(100 - ((touchedDomainCount) * 100 / allDomainCount))) + "%";
     }
 }
-
 
 /******************************************************************************/
 
 
+// const renderBannerLazy = function() {
+//     messaging.send(
+//         'popupPanel',
+//         { what: 'getPopupLazyData', tabId: popupData.tabId }
+//     );
+// };
+//
+// const onPopupMessage = function(data) {
+//     if ( !data ) { return; }
+//     if ( data.tabId !== popupData.tabId ) { return; }
+//
+//     switch ( data.what ) {
+//     case 'domSurveyFinalReport':
+//         let count = data.affectedElementCount || '';
+//         uDom.nodeFromSelector('#no-cosmetic-filtering > span.fa-icon-badge')
+//             .textContent = typeof count === 'number'
+//                 ? Math.min(count, 99).toLocaleString()
+//                 : count;
+//         count = data.scriptCount || '';
+//         // uDom.nodeFromSelector('#no-scripting > span.fa-icon-badge')
+//         //     .textContent = typeof count === 'number'
+//         //         ? Math.min(count, 99).toLocaleString()
+//         //         : count;
+//         break;
+//     }
+// };
+//
+// messaging.addChannelListener('popup', onPopupMessage);
+
+/******************************************************************************/
+
 run();
+
+})();

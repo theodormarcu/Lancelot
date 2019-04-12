@@ -10,6 +10,8 @@
     bottom: 12px;
     right: 12px;
     border-radius: 5px;
+    /* height:100px; */
+    /* width: 100px; */
 }
 
 .exitButton a {
