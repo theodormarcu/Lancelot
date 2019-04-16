@@ -28,11 +28,11 @@ var DEBUG_FLAG = true;
 //text varants
 var BANNER_NORMAL = "Lancelot dummy text.";
 var BUTTON_NORMAL = "Exit";
+var PROGRESS_BAR_HTML = "<div id='progress'><div id='progress_bar'></div></div>";
 var BANNER_OPTIONS = {
-    "normal": {
-        "text": BANNER_NORMAL,
-        "button": BUTTON_NORMAL,
-    }
+    "text": BANNER_NORMAL,
+    "button": BUTTON_NORMAL,
+    "progress_bar": PROGRESS_BAR_HTML
 }
 
 var bannerData = {};
@@ -109,9 +109,9 @@ function insertBanner() {
     debug_log("insertBanner() called.");
     if (document.body !== null && !document.getElementById("lancelot-banner")) {
         // Create Banner
-        var bannervarants = BANNER_OPTIONS['normal'];
+        var banner_options = BANNER_OPTIONS;
         var banner = document.createElement("div");
-        banner.innerHTML = "<span><p id='banner-text'></p><p id='page-blocked-banner'></p><p id='bannerHitDomainCount'></p></span>";
+        banner.innerHTML = "<span>" + banner_options.progress_bar + "<p id='banner-text'></p><p id='page-blocked-banner'></p><p id='bannerHitDomainCount'></p></span>";
         banner.id = "lancelot-banner";
         var firstChild = document.body.firstChild;
         // Add Banner to Page
@@ -119,7 +119,7 @@ function insertBanner() {
         // Add Exit Button
         var exitButton = document.createElement("a");
         exitButton.classList.add("exitButton");
-        exitButton.innerHTML = bannervarants.button;
+        exitButton.innerHTML = banner_options.button;
         exitButton.onclick = (function() {
             removeBanner();
         })
@@ -136,6 +136,14 @@ function removeBanner() {
         element.parentNode.removeChild(element);
     }
 }
+/******************************************************************************/
+
+function move(newWidth) {
+    console.log(newWidth);
+  var elem = document.getElementById("progress_bar");
+  elem.style.width = newWidth + '%';
+}
+
 /******************************************************************************/
 const getBannerData = function(tabId) {
     const onDataReceived = function(response) {
@@ -198,9 +206,6 @@ const cacheBannerData = function(data) {
 // Assume everything has to be done incrementally.
 
 const renderBanner = function() {
-    if (bannerData.tabTitle) {
-        document.title = bannerData.appName + ' - ' + bannerData.tabTitle;
-    }
     let elem = document.body;
     elem.classList.toggle(
         'off',
@@ -267,8 +272,13 @@ const renderBannerPrivacyExposure = function() {
 
     if (allDomainCount === 0) {
         document.getElementById('bannerHitDomainCount').textContent = "100%";
+        move(100);
     } else {
-        document.getElementById('bannerHitDomainCount').textContent = formatNumber(Math.floor(100 - ((touchedDomainCount) * 100 / allDomainCount))) + "%";
+        var value = formatNumber(Math.floor(100 - ((touchedDomainCount) * 100 / allDomainCount)));
+        document.getElementById('bannerHitDomainCount').textContent = value + "%";
+        console.log("MOVE:");
+        console.log(value);
+        move(value);
     }
 }
 
@@ -376,6 +386,7 @@ const pollForContentChange = (function() {
     const queryCallback = function(response) {
         if ( response ) {
             getBannerData(bannerData.tabId);
+            console.log("POLL HAPPENED!");
             return;
         }
         poll();
@@ -383,7 +394,8 @@ const pollForContentChange = (function() {
 
     const poll = function() {
         if ( pollTimer !== undefined ) { return; }
-        pollTimer = vAPI.setTimeout(pollCallback, 1500);
+        pollTimer = self.setTimeout(pollCallback, 1500);
+        // debug_log("timeout set!");
     };
 
     return poll;
