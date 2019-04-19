@@ -19,10 +19,13 @@
     Home: https://github.com/gorhill/uBlock
 */
 
+/* banner.js contains a Content Script that adds an informational banner to
+each page. */
+
+/******************************************************************************/
 
 'use strict';
 (function() {
-/******************************************************************************/
 
 var DEBUG_FLAG = true;
 //text varants
@@ -113,6 +116,7 @@ function insertBanner() {
         var banner = document.createElement("div");
         banner.innerHTML = "<span>" + banner_options.progress_bar + "<p id='banner-text'></p><p id='page-blocked-banner'></p><p id='bannerHitDomainCount'></p></span>";
         banner.id = "lancelot-banner";
+        // Get body's first child.
         var firstChild = document.body.firstChild;
         // Add Banner to Page
         document.body.insertBefore(banner, firstChild);

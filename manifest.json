@@ -49,7 +49,7 @@
         {
             "all_frames": false,
             "js": [
-
+                "/js/vapi.js",
                 "/js/udom.js",
                 "/js/banner.js"
             ],
@@ -95,7 +95,7 @@
     "storage": {
         "managed_schema": "managed_storage.json"
     },
-    "version": "0.1",
+    "version": "0.2",
     "web_accessible_resources": [
         "/web_accessible_resources/*"
     ]
