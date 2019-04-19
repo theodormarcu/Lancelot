@@ -63,9 +63,6 @@
             "run_at": "document_end"
         }
     ],
-    "chrome_url_overrides": {
-        "newtab": "lancelotTab.html"
-    },
     "default_locale": "en",
     "description": "__MSG_extShortDesc__",
     "icons": {
