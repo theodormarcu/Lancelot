@@ -1050,7 +1050,7 @@ FilterContainer.prototype.retrieveGenericSelectors = function(request) {
     if ( !request.ids && !request.classes ) { return; }
 
     //console.time('cosmeticFilteringEngine.retrieveGenericSelectors');
-
+    var attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: 100%!important; height: auto!important;'
     let simpleSelectors = this.setRegister0,
         complexSelectors = this.setRegister1;
 
@@ -1132,7 +1132,7 @@ FilterContainer.prototype.retrieveGenericSelectors = function(request) {
         }
         out.injected = injected.join(',\n');
         vAPI.insertCSS(request.tabId, {
-            code: out.injected + '\n{display:none!important;}',
+            code: out.injected + '\n{' + attributeStr + '}',
             cssOrigin: 'user',
             frameId: request.frameId,
             runAt: 'document_start'
@@ -1155,7 +1155,7 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
     options
 ) {
     //console.time('cosmeticFilteringEngine.retrieveSpecificSelectors');
-
+    var attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: 100%!important; height: auto!important;'
     let hostname = request.hostname,
         cacheEntry = this.selectorCache.get(hostname);
 
@@ -1380,11 +1380,11 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
             runAt: 'document_start'
         };
         if ( out.injectedHideFilters.length !== 0 ) {
-            details.code = out.injectedHideFilters + '\n{display:none!important;}';
+            details.code = out.injectedHideFilters + '\n{' + attributeStr + '}';
             vAPI.insertCSS(request.tabId, details);
         }
         if ( out.networkFilters.length !== 0 ) {
-            details.code = out.networkFilters + '\n{display:none!important;}';
+            details.code = out.networkFilters + '\n{' + attributeStr + '}';
             vAPI.insertCSS(request.tabId, details);
             out.networkFilters = '';
         }

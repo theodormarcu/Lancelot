@@ -57,9 +57,15 @@ window.addEventListener('webextFlavor', function() {
         vAPI.webextFlavor.soup.has('user_stylesheet');
 }, { once: true });
 
+
 vAPI.insertCSS = function(tabId, details) {
     return chrome.tabs.insertCSS(tabId, details, vAPI.resetLastError);
 };
+// Can also insertJS
+vAPI.executeScript = function(tabId, details) {
+    return chrome.tabs.executeScript(tabId, details, vAPI.resetLastError);
+};
+
 
 var noopFunc = function(){};
 
