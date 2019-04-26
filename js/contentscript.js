@@ -84,8 +84,8 @@ if ( typeof vAPI === 'object' && vAPI.supportsUserStylesheets ) {
 /******************************************************************************/
 /******************************************************************************/
 
-// vAPI.attributeStr = 'display:none!important;'
-vAPI.attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: 100%!important; height: auto!important;'
+// vAPI.attributeStr = 'display:none!important;';
+vAPI.attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: auto!important; height: auto!important;';
 
 vAPI.userStylesheet = {
     added: new Set(),

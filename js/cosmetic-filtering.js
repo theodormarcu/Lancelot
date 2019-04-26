@@ -354,6 +354,7 @@ SelectorCacheEntry.prototype = {
 // Specific filers can be enforced before the main document is loaded.
 
 let FilterContainer = function() {
+    this.attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: auto!important; height: auto!important;';
     this.reHasUnicode = /[^\x00-\x7F]/;
     this.rePlainSelector = /^[#.][\w\\-]+/;
     this.rePlainSelectorEscaped = /^[#.](?:\\[0-9A-Fa-f]+ |\\.|\w|-)+/;
@@ -1050,7 +1051,6 @@ FilterContainer.prototype.retrieveGenericSelectors = function(request) {
     if ( !request.ids && !request.classes ) { return; }
 
     //console.time('cosmeticFilteringEngine.retrieveGenericSelectors');
-    var attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: 100%!important; height: auto!important;'
     let simpleSelectors = this.setRegister0,
         complexSelectors = this.setRegister1;
 
@@ -1130,9 +1130,17 @@ FilterContainer.prototype.retrieveGenericSelectors = function(request) {
             injected.push(out.complex.join(',\n'));
             out.complex = [];
         }
+        console.log("GENERIC SELECTORS:");
+        console.log(injected);
         out.injected = injected.join(',\n');
         vAPI.insertCSS(request.tabId, {
-            code: out.injected + '\n{' + attributeStr + '}',
+            code: out.injected + '\n{' + this.attributeStr + '}',
+            cssOrigin: 'user',
+            frameId: request.frameId,
+            runAt: 'document_start'
+        });
+        vAPI.executeScript(request.tabId, {
+            code: out.injected + '\n{' + this.attributeStr + '}',
             cssOrigin: 'user',
             frameId: request.frameId,
             runAt: 'document_start'
@@ -1155,7 +1163,6 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
     options
 ) {
     //console.time('cosmeticFilteringEngine.retrieveSpecificSelectors');
-    var attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: 100%!important; height: auto!important;'
     let hostname = request.hostname,
         cacheEntry = this.selectorCache.get(hostname);
 
@@ -1372,6 +1379,8 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
             injectedHideFilters.push(out.highGenericHideComplex);
             out.highGenericHideComplex = '';
         }
+        console.log("SPECIFIC SELECTORS:");
+        console.log(injectedHideFilters);
         out.injectedHideFilters = injectedHideFilters.join(',\n');
         let details = {
             code: '',
@@ -1379,12 +1388,13 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
             frameId: request.frameId,
             runAt: 'document_start'
         };
+
         if ( out.injectedHideFilters.length !== 0 ) {
-            details.code = out.injectedHideFilters + '\n{' + attributeStr + '}';
+            details.code = out.injectedHideFilters + '\n{' + this.attributeStr + '}';
             vAPI.insertCSS(request.tabId, details);
         }
         if ( out.networkFilters.length !== 0 ) {
-            details.code = out.networkFilters + '\n{' + attributeStr + '}';
+            details.code = out.networkFilters + '\n{' + this.attributeStr + '}';
             vAPI.insertCSS(request.tabId, details);
             out.networkFilters = '';
         }
