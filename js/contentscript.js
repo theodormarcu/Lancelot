@@ -154,9 +154,9 @@ vAPI.DOMFilterer.prototype = {
         if ( vAPI instanceof Object === false ) { return; }
         let userStylesheet = vAPI.userStylesheet;
         for ( let entry of this.addedCSSRules ) {
-            console.log("ENTRY:")
-            console.log(entry.selectors)
-            console.log(entry.declarations)
+            // console.log("ENTRY:")
+            // console.log(entry.selectors)
+            // console.log(entry.declarations)
             if (
                 this.disabled === false &&
                 entry.lazy &&

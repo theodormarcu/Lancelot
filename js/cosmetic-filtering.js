@@ -1130,6 +1130,7 @@ FilterContainer.prototype.retrieveGenericSelectors = function(request) {
             injected.push(out.complex.join(',\n'));
             out.complex = [];
         }
+        // Selectors Here
         console.log("GENERIC SELECTORS:");
         console.log(injected);
         out.injected = injected.join(',\n');
@@ -1139,12 +1140,7 @@ FilterContainer.prototype.retrieveGenericSelectors = function(request) {
             frameId: request.frameId,
             runAt: 'document_start'
         });
-        vAPI.executeScript(request.tabId, {
-            code: out.injected + '\n{' + this.attributeStr + '}',
-            cssOrigin: 'user',
-            frameId: request.frameId,
-            runAt: 'document_start'
-        });
+
     }
 
     // Important: always clear used registers before leaving.
@@ -1353,7 +1349,6 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
         cacheEntry.retrieve('net', networkFilters);
         out.networkFilters = networkFilters.join(',\n');
     }
-
     // https://github.com/gorhill/uBlock/issues/3160
     //   If user stylesheets are supported in the current process, inject the
     //   cosmetic filters now.
@@ -1363,25 +1358,52 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
         request.frameId !== undefined
     ) {
         let injectedHideFilters = [];
+        let specificFilterArr = [];
         if ( out.declarativeFilters.length !== 0 ) {
+            console.log("declarativeFilters");
+            console.log(out.declarativeFilters);
             injectedHideFilters.push(out.declarativeFilters.join(',\n'));
+            for (ix in out.declarativeFilters) {
+                specificFilterArr.push(out.declarativeFilters[ix]);
+            }
+            specificFilterArr = out.declarativeFilters;
             out.declarativeFilters = [];
         }
         if ( out.proceduralFilters.length !== 0 ) {
             injectedHideFilters.push('[' + out.hideNodeAttr + ']');
+            // console.log("hideNodeAttr");
+            // console.log(out.hideNodeAttr);
             out.hideNodeStyleSheetInjected = true;
         }
         if ( out.highGenericHideSimple.length !== 0 ) {
             injectedHideFilters.push(out.highGenericHideSimple);
+            // console.log("highGenericHideSimple");
+            // console.log(out.highGenericHideSimple);
+            let arr = out.highGenericHideSimple.split("\,\n");
+            for (var ix in arr) {
+                let filter = arr[ix].replace(/\"/g, '\'');
+                specificFilterArr.push(filter);
+            }
             out.highGenericHideSimple = '';
         }
         if ( out.highGenericHideComplex.length !== 0 ) {
             injectedHideFilters.push(out.highGenericHideComplex);
+            // console.log("highGenericHidComplex");
+            // console.log(out.highGenericHideComplex);
+            let arr = out.highGenericHideComplex.split("\,\n");
+            for (var ix in arr) {
+                let filter = arr[ix].replace(/\"/g, '\'');
+                specificFilterArr.push(filter);
+            }
             out.highGenericHideComplex = '';
         }
-        console.log("SPECIFIC SELECTORS:");
-        console.log(injectedHideFilters);
+        // Selectors Here
+        // console.log("SPECIFIC SELECTORS:");
+        // console.log("INJECTED HIDE FILTERS");
+        // console.log(injectedHideFilters);
         out.injectedHideFilters = injectedHideFilters.join(',\n');
+
+        // CSS Details
         let details = {
             code: '',
             cssOrigin: 'user',
@@ -1397,6 +1419,49 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
             details.code = out.networkFilters + '\n{' + this.attributeStr + '}';
             vAPI.insertCSS(request.tabId, details);
             out.networkFilters = '';
+        }
+
+        // Create array of elements that need to be selected.
+        var arrCode = "";
+        arrCode = arrCode + "var selectorArr = " + JSON.stringify(specificFilterArr) + ";\n";
+        arrCode = arrCode + "console.log('Execute Script PRINT');\n";
+
+        // Loop through elements and add banner replacements.
+        arrCode = arrCode + "for (ix in selectorArr) {\n\
+                                // console.log(selectorArr[ix]);\n\
+                                try {\n\
+                                    var element = document.querySelector(selectorArr[ix]);\n\
+                                }catch(error){\n\
+                                    console.log('CONTINUED');\n\
+                                    continue;\n\
+                                }\n\
+                                // console.log(element);\n\
+                                // If element not null, replace it.\n\
+                                if (element) {\n\
+                                    console.log(element);\n\
+                                    let elementWidth = element.offsetWidth;\n\
+                                    let elementHeight = element.offsetHeight;\n\
+                                    var coverElem = document.createElement('div'); \n\
+                                    coverElem.id = 'coverElem';\n\
+                                    coverElem.style.width = elementWidth;\n\
+                                    coverElem.style.height = elementHeight;\n\
+                                    coverElem.style = 'z-index: 1000;position:absolute;top:0;left:0;background-color:white;min-height:100px;min-width:100px;';\n\
+                                    coverElem.innerHTML = '<h3> 👾This element is generated using web trackers.👾 </h3>';\n\
+                                    console.log(coverElem);\n\
+                                    element.appendChild(coverElem);\n\
+                                }\n\
+                            }\n";
+        arrCode = arrCode + "console.log('Done Script Injection');\n";
+        // Script Details
+        let scriptDetails = {
+            code: '',
+            frameId: request.frameId,
+            runAt: 'document_end'
+        }
+
+        if (specificFilterArr.length !== 0 ) {
+            scriptDetails.code = arrCode;
+            vAPI.executeScript(request.tabId, scriptDetails);
         }
     }
 
