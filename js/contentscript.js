@@ -85,7 +85,7 @@ if ( typeof vAPI === 'object' && vAPI.supportsUserStylesheets ) {
 /******************************************************************************/
 
 // vAPI.attributeStr = 'display:none!important;';
-vAPI.attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: auto!important; height: auto!important;';
+vAPI.attributeStr = "";
 
 vAPI.userStylesheet = {
     added: new Set(),
@@ -153,9 +153,9 @@ vAPI.DOMFilterer.prototype = {
         this.commitTimer.clear();
         if ( vAPI instanceof Object === false ) { return; }
         let userStylesheet = vAPI.userStylesheet;
+        console.log(":commitNow:")
+
         for ( let entry of this.addedCSSRules ) {
-            // console.log("ENTRY:")
-            // console.log(entry.selectors)
             // console.log(entry.declarations)
             if (
                 this.disabled === false &&
@@ -168,6 +168,7 @@ vAPI.DOMFilterer.prototype = {
             }
         }
         this.addedCSSRules.clear();
+        // console.log("USER CSS APPLY commit now");
         userStylesheet.apply();
     },
 
@@ -272,6 +273,7 @@ vAPI.DOMFilterer.prototype = {
                 userStylesheet.add(rule);
             }
         }
+        // console.log("USER CSS TOGGLE");
         userStylesheet.apply(callback);
     },
 
@@ -2281,6 +2283,12 @@ vAPI.bootstrap = (function() {
 
     const bootstrapPhase1 = function(response) {
         if ( response === null ) { return; }
+        console.log("MAKING ATTRIBUTESTR");
+        let imgUrl = response.imgUrl;
+        console.log(imgUrl);
+        vAPI.attributeStr = "width: auto!important; height: auto!important;";
+
+        console.log(vAPI.attributeStr);
         vAPI.bootstrap = undefined;
 
         // cosmetic filtering engine aka 'cfe'
@@ -2329,7 +2337,12 @@ vAPI.bootstrap = (function() {
             vAPI.userStylesheet.add(
                 cfeDetails.networkFilters + '\n{' + vAPI.attributeStr + '}');
         }
+        // console.log("GET ALL SELECTORS");
+        // let filterer = domFilterer.prototype.getAllSelectors();
+        // console.log(filterer);
+        // debugger
 
+        // console.log("USER CSS PHASE 1");
         vAPI.userStylesheet.apply();
 
         // Library of resources is located at:

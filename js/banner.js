@@ -27,7 +27,7 @@ each page. */
 'use strict';
 (function() {
 
-var DEBUG_FLAG = true;
+var DEBUG_FLAG = false;
 //text varants
 var BANNER_NORMAL = "Lancelot dummy text.";
 var BUTTON_NORMAL = "Exit";
@@ -143,7 +143,7 @@ function removeBanner() {
 /******************************************************************************/
 
 function move(newWidth) {
-    console.log(newWidth);
+    debug_log(newWidth);
   var elem = document.getElementById("progress_bar");
   elem.style.width = newWidth + '%';
 }
@@ -280,8 +280,8 @@ const renderBannerPrivacyExposure = function() {
     } else {
         var value = formatNumber(Math.floor(100 - ((touchedDomainCount) * 100 / allDomainCount)));
         document.getElementById('bannerHitDomainCount').textContent = value + "%";
-        console.log("MOVE:");
-        console.log(value);
+        debug_log("MOVE:");
+        debug_log(value);
         move(value);
     }
 }
@@ -300,16 +300,16 @@ const onBannerMessage = function(data) {
     if ( !data ) { return; }
     if ( data.tabId !== bannerData.tabId ) { return; }
 
-    switch ( data.what ) {
-    case 'domSurveyFinalReport':
-        let count = data.affectedElementCount || '';
-        uDom.nodeFromSelector('#no-cosmetic-filtering > span.fa-icon-badge')
-            .textContent = typeof count === 'number'
-                ? Math.min(count, 99).toLocaleString()
-                : count;
-        count = data.scriptCount || '';
-        break;
-    }
+    // switch ( data.what ) {
+    // case 'domSurveyFinalReport':
+    //     let count = data.affectedElementCount || '';
+    //     uDom.nodeFromSelector('#no-cosmetic-filtering > span.fa-icon-badge')
+    //         .textContent = typeof count === 'number'
+    //             ? Math.min(count, 99).toLocaleString()
+    //             : count;
+    //     count = data.scriptCount || '';
+    //     break;
+    // }
 };
 
 messaging.addChannelListener('banner', onBannerMessage);
@@ -390,7 +390,7 @@ const pollForContentChange = (function() {
     const queryCallback = function(response) {
         if ( response ) {
             getBannerData(bannerData.tabId);
-            console.log("POLL HAPPENED!");
+            debug_log("POLL HAPPENED!");
             return;
         }
         poll();

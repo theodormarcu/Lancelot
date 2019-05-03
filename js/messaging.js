@@ -676,7 +676,11 @@
                     collapseBlocked: µb.userSettings.collapseBlocked,
                     noCosmeticFiltering: pageStore.noCosmeticFiltering === true,
                     noGenericCosmeticFiltering: pageStore.noGenericCosmeticFiltering === true
+
                 };
+
+                response.imgUrl = chrome.runtime.getURL('img/tracker_content.png');
+                console.log(response.imgUrl);
                 request.tabId = tabId;
                 request.frameId = frameId;
                 request.hostname = µb.URI.hostnameFromURI(request.url);

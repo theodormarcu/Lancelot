@@ -354,7 +354,9 @@ SelectorCacheEntry.prototype = {
 // Specific filers can be enforced before the main document is loaded.
 
 let FilterContainer = function() {
-    this.attributeStr = 'border-style: solid!important; border-color: red!important; background-color: green!important; width: auto!important; height: auto!important;';
+    let imgUrl = chrome.runtime.getURL('img/tracker_content.png');
+    this.attributeStr = "width: auto ! important; height: auto ! important; background-image: " + imgUrl + " ! important;";
+    // this.attributeStr = "display: none ! important;";
     this.reHasUnicode = /[^\x00-\x7F]/;
     this.rePlainSelector = /^[#.][\w\\-]+/;
     this.rePlainSelectorEscaped = /^[#.](?:\\[0-9A-Fa-f]+ |\\.|\w|-)+/;
@@ -1360,8 +1362,8 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
         let injectedHideFilters = [];
         let specificFilterArr = [];
         if ( out.declarativeFilters.length !== 0 ) {
-            console.log("declarativeFilters");
-            console.log(out.declarativeFilters);
+            // console.log("declarativeFilters");
+            // console.log(out.declarativeFilters);
             injectedHideFilters.push(out.declarativeFilters.join(',\n'));
             for (ix in out.declarativeFilters) {
                 specificFilterArr.push(out.declarativeFilters[ix]);
@@ -1422,36 +1424,11 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
         }
 
         // Create array of elements that need to be selected.
-        var arrCode = "";
-        arrCode = arrCode + "var selectorArr = " + JSON.stringify(specificFilterArr) + ";\n";
-        arrCode = arrCode + "console.log('Execute Script PRINT');\n";
-
-        // Loop through elements and add banner replacements.
-        arrCode = arrCode + "for (ix in selectorArr) {\n\
-                                // console.log(selectorArr[ix]);\n\
-                                try {\n\
-                                    var element = document.querySelector(selectorArr[ix]);\n\
-                                }catch(error){\n\
-                                    console.log('CONTINUED');\n\
-                                    continue;\n\
-                                }\n\
-                                // console.log(element);\n\
-                                // If element not null, replace it.\n\
-                                if (element) {\n\
-                                    console.log(element);\n\
-                                    let elementWidth = element.offsetWidth;\n\
-                                    let elementHeight = element.offsetHeight;\n\
-                                    var coverElem = document.createElement('div'); \n\
-                                    coverElem.id = 'coverElem';\n\
-                                    coverElem.style.width = elementWidth;\n\
-                                    coverElem.style.height = elementHeight;\n\
-                                    coverElem.style = 'z-index: 1000;position:absolute;top:0;left:0;background-color:white;min-height:100px;min-width:100px;';\n\
-                                    coverElem.innerHTML = '<h3> 👾This element is generated using web trackers.👾 </h3>';\n\
-                                    console.log(coverElem);\n\
-                                    element.appendChild(coverElem);\n\
-                                }\n\
-                            }\n";
-        arrCode = arrCode + "console.log('Done Script Injection');\n";
+        let imgUrl = chrome.runtime.getURL('img/tracker_content.png');
+        let arrCode = "";
+        arrCode = arrCode + "let selectorArr = " + JSON.stringify(specificFilterArr) + ";";
+        arrCode = arrCode + "let imgUrl = \'" + imgUrl + "\';";
+        console.log(arrCode);
         // Script Details
         let scriptDetails = {
             code: '',

@@ -45,7 +45,7 @@ vAPI.lastError = function() {
 // https://github.com/gorhill/uBlock/issues/875
 // https://code.google.com/p/chromium/issues/detail?id=410868#c8
 //   Must not leave `lastError` unchecked.
-vAPI.resetLastError = function() {
+    vAPI.resetLastError = function() {
     void chrome.runtime.lastError;
 };
 
@@ -63,7 +63,11 @@ vAPI.insertCSS = function(tabId, details) {
 };
 // Can also insertJS
 vAPI.executeScript = function(tabId, details) {
-    return chrome.tabs.executeScript(tabId, details, vAPI.resetLastError);
+    chrome.tabs.executeScript(tabId, details, vAPI.resetLastError);
+    return chrome.tabs.executeScript(tabId, {file: 'js/insert_replacements.js'}, vAPI.resetLastError);
+    // return chrome.tabs.executeScript(tabId, details, function() {
+    //     chrome.tabs.executeScript(tabId, {file: 'insert_replacements.js'}, vAPI.resetLastError);
+    // });
 };
 
 
@@ -920,8 +924,10 @@ vAPI.messaging.onPortMessage = (function() {
                     callback();
                 }
             };
+            console.log("USER CSS");
             for ( cssText of msg.add ) {
                 countdown += 1;
+                console.log(cssText);
                 details.code = cssText;
                 chrome.tabs.insertCSS(tabId, details, countdownHandler);
             }
