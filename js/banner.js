@@ -16,7 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see {http://www.gnu.org/licenses/}.
 
-    Home: https://github.com/gorhill/uBlock
+    uBlock Origin Original Repository: https://github.com/gorhill/uBlock
 */
 
 /* banner.js contains a Content Script that adds an informational banner to
