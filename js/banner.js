@@ -114,7 +114,7 @@ function insertBanner() {
         // Create Banner
         var banner_options = BANNER_OPTIONS;
         var banner = document.createElement("div");
-        banner.innerHTML = "<span>" + banner_options.progress_bar + "<p id='banner-text'></p><p id='page-blocked-banner'></p><p id='bannerHitDomainCount'></p></span>";
+        banner.innerHTML = "<span> <h2 id='banner-text'></h2><p>Requests Blocked</p><p id='page-blocked-banner'></p></span>";
         banner.id = "lancelot-banner";
         // Get body's first child.
         var firstChild = document.body.firstChild;
@@ -408,6 +408,6 @@ const pollForContentChange = (function() {
 
 /******************************************************************************/
 
-run();
+// run();
 
 })();

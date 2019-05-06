@@ -1,0 +1,10 @@
+body {
+    background-color: #ecf0f1;
+    width: 100%;
+    height: auto;
+}
+
+#search {
+    float: none;
+    margin: 0 auto;
+}

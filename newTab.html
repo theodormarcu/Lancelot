@@ -1,0 +1,161 @@
+<!-- /*******************************************************************************
+
+    Lancelot - A child-friendly tracker and ad blocker built on top of uBlock Origin.
+    Copyright (C) 2019-present Theodor Marcu. Thanks to Raymond Hill and the uBlock contributors for their work.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see {http://www.gnu.org/licenses/}.
+
+    Home: https://github.com/gorhill/uBlock
+*/
+
+/* newTab.html creates a new tab replacement for Lancelot.
+
+/******************************************************************************/ -->
+<!-- HTML -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>New Tab - Lancelot</title>
+    <meta charset='utf-8'>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/newTab.css" type="text/css">
+</head>
+
+<body>
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col-8 text-center mt-5 mb-5">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col-8 text-center id=" search">
+                    <!-- Logo -->
+                    <img src="/img/lancelot_main.svg" class="img-fluid mx-auto" style="max-width: 200px;"></img>
+                    <!-- Search -->
+                    <form method="get" action="https://www.google.com/search" class="mt-3">
+                        <div class="form-group">
+                            <!-- <label for="exampleInputEmail1">Search</label> -->
+                            <input type="text" name='q' size='31' class="form-control" placeholder="Search Google">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+
+                </div>
+                <div class="col">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col">
+                </div>
+                <div class="col-12 text-center id=" search">
+                    <!-- Story Paragraph -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>Lancelot defends your digital kingdom 🏰from trackers 👾who try to spy 👀on you! The knight is your trusty companion!</h6>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <div class="card-group">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>👀 What is online tracking?</h5>
+                                        <p>Online tracking allows websites and
+                                            advertisers to learn more about you when
+                                            you different websites. Online tracking
+                                            can be useful when it shows you things you're
+                                            interested in, but it can also erode your privacy
+                                            when it learns too much.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>⚔️ Why do I need to use Lancelot?</h5>
+                                        <p>
+                                            Online tracking collects information
+                                            about you the more you use the internet.
+                                            Trackers are other websites that
+                                            connect to your computer and leave
+                                            bits of information called cookies to
+                                            identify you across websites.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5>🎉 How do I use Lancelot?</h5>
+                                        <p>
+                                            Lancelot is hard-at-work defending you
+                                            in the background.<br>
+                                            Just keep an eye out for pages on which
+                                            there are many requests blocked! Those might
+                                            be pages that also feature hidden trackers
+                                            that Lancelot cannot detect.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <!-- Other Resources -->
+                            <h5> Learn more about tracking and privacy using these helpful resources! </h5>
+                            <div class="card-group">
+                                <div class="card">
+                                    <img class="card-img-top m-3 img-fluid mx-auto d-block" src="img/internet_awesome.jpg" style="max-width: 250px;" alt="Google's Be Internet Awesome">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Google's Be Internet Awesome</h5>
+                                        <p class="card-text">Explore Interland and learn about privacy and security using Google's Be Internet Awesome website!</p>
+                                        <a href="https://beinternetawesome.withgoogle.com/en_us/interland" class="btn btn-primary">Go to Interland</a>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <img class="card-img-top m-3 img-fluid mx-auto d-block" src="img/media_smart.png" style="max-width: 250px;" alt="Google's Be Internet Awesome">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Media Smarts</h5>
+                                        <p class="card-text">Play games and take quizes to learn about how to be media smart!</p>
+                                        <a href="http://mediasmarts.ca/digital-media-literacy/educational-games" class="btn btn-primary">Go to Media Smarts</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+        </div>
+    </div>
+
+    <!-- Links to Learning Resources -->
+
+    <!-- Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+</body>
+
+</html>
+<!--  -->

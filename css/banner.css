@@ -12,6 +12,7 @@
     border-radius: 5px;
     /* height:100px; */
     /* width: 100px; */
+    text-align: center;
 }
 
 .exitButton a {
@@ -28,4 +29,11 @@
   width: 1%;
   height: 30px;
   background-color: #e67e22;
+}
+
+#lancelot-banner p {
+    font-size: 14px;
+    font-style: normal;
+    color: black;
+
 }
