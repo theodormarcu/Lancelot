@@ -45,15 +45,18 @@
             <!--  Refresh Overlay -->
             <div id="refresh" class="fa-icon">refresh</div>
             <!--  Since Install -->
-            <p class="statName" style="margin: 0;">
+            <p class="statName" style="display: none;margin: 0;">
                 <!-- <span data-i18n="popupBlockedSinceInstallPrompt">&nbsp;</span> -->
                 <!-- <span> Since Install </span> -->
             </p>
             <!-- <p class="statValue" id="total-blocked">?</p> -->
-            <p class="statValue" id="total-blocked" style="visibility: hidden; height: 0;">?</p>
+            <p class="statValue" id="total-blocked" style="display: none;height: 0;">?</p>
+            <!-- Status Message -->
+            <div class = 'txt_head'><h2 id="status-message">Lancelot found nothing suspicious!</h2></div>
+            <div class = 'txt_head'><h2 id="status-icon"></h2></div>
             <!--  Domains Connected -->
-            <div class = 'txt_head'><h2 data-i18n="popupHitDomainCountPrompt">&nbsp;</h2></div>
-            <p class="statValue" id="popupHitDomainCount">&nbsp;</p>
+            <div class = 'txt_head'style="display: none;"><h2 data-i18n="popupHitDomainCountPrompt">&nbsp;</h2></div>
+            <p class="statValue" style="display: none;"id="popupHitDomainCount">&nbsp;</p>
             <div id="extraTools" style="visibility: hidden;">
                 <span id="no-popups" class="hnSwitch fa-icon fa-icon-badged" role="button"  style="visibility: hidden;" aria-label tabindex="0">files-o<svg class="nope" viewBox="0 0 20 20">
                         <path d="M1,1 19,19M1,19 19,1" /></svg></span>

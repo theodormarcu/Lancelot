@@ -471,16 +471,22 @@ const renderPopup = function() {
 
     let blocked = popupData.pageBlockedRequestCount,
         total = popupData.pageAllowedRequestCount + blocked,
-        text;
+        text,
+        statusMessageText;
     if ( total === 0 ) {
         text = formatNumber(0);
+        statusMessageText = "Lancelot found nothing suspicious!";
+        uDom.nodeFromId('status-icon').textContent = "";
     } else {
         text = formatNumber(blocked);
+        statusMessageText = "Lancelot discovered a few trackers and blocked them!";
+        uDom.nodeFromId('status-icon').textContent = "👾👾👾👾👾";
 
         // statsStr.replace('{{count}}', formatNumber(blocked));
                        // .replace('{{percent}}', formatNumber(Math.floor(blocked * 100 / total)));
     }
     uDom.nodeFromId('page-blocked').textContent = text;
+    uDom.nodeFromId('status-message').textContent = statusMessageText;
 
     blocked = popupData.globalBlockedRequestCount;
     total = popupData.globalAllowedRequestCount + blocked;

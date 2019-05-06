@@ -69,7 +69,7 @@ body[dir="rtl"] #panes>div {
     flex-shrink: 0;
     font-family: "Noto Sans", sans-serif;
     overflow-y: auto;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     width: 24em;
 }
 
@@ -187,7 +187,8 @@ body.off .lancelot_img {
     color: #888;
     font-size: 85%;
     margin: 0.8em 0.2em 0.4em 0.2em;
-    visibility: collapse;
+    /* visibility: collapse; */
+    display: none;
 }
 
 .statValue {
@@ -741,6 +742,13 @@ input:checked + .slider-button:before {
     font-weight: normal;
     padding: 0.2em;
     text-align: center;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    white-space: normal;
+}
+
+.txt_head #status_icon h2 {
+    font-size: 200%;
 }
 
 #total-blocked {

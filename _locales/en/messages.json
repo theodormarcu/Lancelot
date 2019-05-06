@@ -64,7 +64,7 @@
     "description":"Message to be read by screen readers"
   },
   "popupBlockedRequestPrompt":{
-    "message":"Trackers Blocked",
+    "message":"Requests Blocked",
     "description":"English: requests blocked"
   },
   "popupBlockedOnThisPagePrompt":{
