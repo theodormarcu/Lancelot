@@ -679,7 +679,7 @@
 
                 };
 
-                response.imgUrl = chrome.runtime.getURL('img/tracker_content.png');
+                response.imgUrl = chrome.runtime.getURL('img/tracker_content.svg');
                 console.log(response.imgUrl);
                 request.tabId = tabId;
                 request.frameId = frameId;

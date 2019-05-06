@@ -925,10 +925,11 @@ vAPI.messaging.onPortMessage = (function() {
                 }
             };
             console.log("USER CSS");
+
             for ( cssText of msg.add ) {
                 countdown += 1;
-                console.log(cssText);
                 details.code = cssText;
+                console.log(details);
                 chrome.tabs.insertCSS(tabId, details, countdownHandler);
             }
             if ( typeof chrome.tabs.removeCSS === 'function' ) {

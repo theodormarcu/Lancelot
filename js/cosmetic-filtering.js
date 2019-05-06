@@ -354,7 +354,7 @@ SelectorCacheEntry.prototype = {
 // Specific filers can be enforced before the main document is loaded.
 
 let FilterContainer = function() {
-    let imgUrl = chrome.runtime.getURL('img/tracker_content.png');
+    let imgUrl = chrome.runtime.getURL('img/tracker_content.svg');
     this.attributeStr = "width: auto ! important; height: auto ! important; background-image: " + imgUrl + " ! important;";
     // this.attributeStr = "display: none ! important;";
     this.reHasUnicode = /[^\x00-\x7F]/;
@@ -1424,7 +1424,7 @@ FilterContainer.prototype.retrieveSpecificSelectors = function(
         }
 
         // Create array of elements that need to be selected.
-        let imgUrl = chrome.runtime.getURL('img/tracker_content.png');
+        let imgUrl = chrome.runtime.getURL('img/tracker_content.svg');
         let arrCode = "";
         arrCode = arrCode + "let selectorArr = " + JSON.stringify(specificFilterArr) + ";";
         arrCode = arrCode + "let imgUrl = \'" + imgUrl + "\';";

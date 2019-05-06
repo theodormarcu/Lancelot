@@ -112,7 +112,6 @@
     "version": "0.2",
     "web_accessible_resources": [
         "img/*",
-        "/web_accessible_resources/*",
-        "/web_accessible_resources/img/tracker_content.png"
+        "/web_accessible_resources/*"
     ]
 }
