@@ -473,21 +473,26 @@ const renderPopup = function() {
     let blocked = popupData.pageBlockedRequestCount,
         total = popupData.pageAllowedRequestCount + blocked,
         text,
-        statusMessageText;
+        statusMessageText,
+        statusIconText;
     if ( total === 0 ) {
         text = formatNumber(0);
         statusMessageText = "Lancelot found nothing suspicious!";
-        uDom.nodeFromId('status-icon').textContent = "";
+        statusIconText = "";
     } else {
         text = formatNumber(blocked);
         statusMessageText = "Lancelot discovered a few trackers and blocked them!";
-        uDom.nodeFromId('status-icon').textContent = "👾👾👾👾👾";
+        statusIconText = "👾👾👾👾👾";
 
         // statsStr.replace('{{count}}', formatNumber(blocked));
                        // .replace('{{percent}}', formatNumber(Math.floor(blocked * 100 / total)));
     }
     uDom.nodeFromId('page-blocked').textContent = text;
-    uDom.nodeFromId('status-message').textContent = statusMessageText;
+    if(popupData.netFilteringSwitch === true) {
+        uDom.nodeFromId('status-message').textContent = statusMessageText;
+        uDom.nodeFromId('status-icon').textContent = statusIconText;
+    }
+
 
     blocked = popupData.globalBlockedRequestCount;
     total = popupData.globalAllowedRequestCount + blocked;
