@@ -10,7 +10,7 @@ If you have any questions, please reach out to Theodor Marcu at tmarcu@princeton
 
 Thank you to Raymond Hill and all the [uBlock Origin](https://github.com/gorhill/uBlock/) contributors for building an efficent open-source tracker blocker. I also want to express gratitude to my advisor, Prof. Marshini Chetty, for her guidance throughout this year. Last but not least, I want to thank the creators of [CatBlock](https://github.com/CatBlock/catblock) for providing me with the inspiration to write an efficient ad-replacement  script.
 
-Credits to [ObinSun Pixel Art](https://www.zazzle.com/8_bit_knight_16x16_sprite_pixel_art_poster-228987731767650957) for inspiration for Lancelot's pixel knight logo. 
+Thank you to [ObinSun Pixel Art](https://www.zazzle.com/8_bit_knight_16x16_sprite_pixel_art_poster-228987731767650957) for providing me with inspiration for Lancelot's pixel knight logo. 
 
 # License
 
