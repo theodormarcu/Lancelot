@@ -463,6 +463,7 @@ const renderPopup = function() {
         uDom.nodeFromId('lancelot_icon').src = "../img/icon_128-off.png";
         uDom.nodeFromId('toggle_text').textContent = "Page Protection Off";
         uDom.nodeFromId("switch").checked = false;
+        uDom.nodeFromId('status-message').textContent = "Lancelot is disabled for this page.";
     }
     let canElementPicker = popupData.canElementPicker === true &&
                            popupData.netFilteringSwitch === true;

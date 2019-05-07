@@ -64,9 +64,9 @@ vAPI.insertCSS = function(tabId, details) {
 // Can also insertJS
 vAPI.executeScript = function(tabId, details) {
     chrome.tabs.executeScript(tabId, details, vAPI.resetLastError);
-    return chrome.tabs.executeScript(tabId, {file: 'js/insert_replacements.js'}, vAPI.resetLastError);
+    return chrome.tabs.executeScript(tabId, {file: 'js/insert-replacements.js'}, vAPI.resetLastError);
     // return chrome.tabs.executeScript(tabId, details, function() {
-    //     chrome.tabs.executeScript(tabId, {file: 'insert_replacements.js'}, vAPI.resetLastError);
+    //     chrome.tabs.executeScript(tabId, {file: 'insert-replacements.js'}, vAPI.resetLastError);
     // });
 };
 
