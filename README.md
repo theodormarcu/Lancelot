@@ -7,7 +7,7 @@
 Lancelot
 </h1>
 
-Lancelot is a child-friendly tracker and ad blocker developed for my Princeton Junior independent research. To develop Lancelot, I interviewed 14 children aged 7-11. 
+Lancelot is a child-friendly tracker and ad blocker developed for my Princeton Junior independent research. To develop Lancelot, I interviewed 14 children aged 7-11.
 
 Current status: The current status of Lancelot is **in development**.
 
@@ -16,6 +16,13 @@ Current status: The current status of Lancelot is **in development**.
 If you have any questions, please reach out to Theodor Marcu at tmarcu@princeton.edu
 
 Lancelot is a fork of uBlock Origin, which is distributed under the GNU Public License.
+
+## Documentation
+
+|Popup Dialog|Webpage with Lancelot Example   |
+|------------|---|
+| I upgraded the uBlock origin dialog so it's child-friendly and helps both parents and children better understand what's happening. |Lancelot replaces ads with useful messages and graphics that help children understand that trackers are on a page in a contextual way.|
+|  <img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/popup_blocked.png"> |  <img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/imglancelot_page_example.png"> |
 
 # Credits and Acknowledgements
 
