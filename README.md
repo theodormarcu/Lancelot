@@ -21,8 +21,8 @@ Lancelot is a fork of uBlock Origin, which is distributed under the GNU Public L
 
 |Popup Dialog|Webpage with Lancelot Example   |
 |------------|---|
-| I upgraded the uBlock origin dialog so it's child-friendly and helps both parents and children better understand what's happening. |Lancelot replaces ads with useful messages and graphics that help children understand that trackers are on a page in a contextual way.|
-|  <img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/popup_blocked.png"> |  <img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/lancelot_page_example.png"> |
+|Updated uBLock Origin Popup so children and parents alike can have more control and better understand what's happening.|Lancelot replaces ads with useful messages and graphics that help children understand online tracking and advertising in a contextual way.|
+|  <img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/popup_blocked.png" max-height="200px" width="auto"> |  <img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/lancelot_page_example.png"> |
 
 # Credits and Acknowledgements
 
