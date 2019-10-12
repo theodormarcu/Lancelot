@@ -1,19 +1,19 @@
 <h1 align="center">
 <sub>
-<img  src="https://raw.github.com/theodormarcu/Lancelot/master/img/icon_64.png"
+<img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/icon_128.png"
       height="38"
       width="38">
 </sub>
-uBlock Origin
+Lancelot
 </h1>
 
-# Lancelot
-
-Lancelot is a fork of uBlock Origin, which is distributed under the GNU Public License. Lancelot was developed as a child-friendly tracker blocker using findings from a series of focus group sessions with children aged 7-11.
+ Lancelot was developed as a child-friendly tracker blocker using findings from a series of focus group sessions with children aged 7-11.
 
 [Link to paper.](https://theodormarcu.com/docs/TheodorMarcuLancelot.pdf)
 
 If you have any questions, please reach out to Theodor Marcu at tmarcu@princeton.edu
+
+Lancelot is a fork of uBlock Origin, which is distributed under the GNU Public License.
 
 # Credits and Acknowledgements
 
