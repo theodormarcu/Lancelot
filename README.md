@@ -1,13 +1,15 @@
 <h1 align="center">
 <sub>
-<img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/icon_128.png"
-      height="38"
-      width="38">
+<img  src="https://raw.githubusercontent.com/theodormarcu/Lancelot/master/img/icon_64.png"
+      height="64"
+      width="64">
 </sub>
 Lancelot
 </h1>
 
- Lancelot was developed as a child-friendly tracker blocker using findings from a series of focus group sessions with children aged 7-11.
+Lancelot is a child-friendly tracker and ad blocker developed for my Princeton Junior independent research. To develop Lancelot, I interviewed 14 children aged 7-11. 
+
+Current status: The current status of Lancelot is **in development**.
 
 [Link to paper.](https://theodormarcu.com/docs/TheodorMarcuLancelot.pdf)
 
